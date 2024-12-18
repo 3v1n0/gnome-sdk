@@ -29,9 +29,15 @@ parts:
     build-environment: &buildenv
       - ACLOCAL_PATH: $CRAFT_STAGE/usr/share/aclocal
       - XDG_DATA_DIRS: $CRAFT_STAGE/usr/share:/usr/share
-      - LD_LIBRARY_PATH: $CRAFT_STAGE/usr/lib/vala-0.56:$CRAFT_STAGE/usr/lib:$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+      - LD_LIBRARY_PATH: "$CRAFT_STAGE/usr/lib/vala-0.56:\
+                          $CRAFT_STAGE/usr/lib:\
+                          $CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR\
+                          ${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
       - GDK_PIXBUF_MODULE_FILE: $CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gdk-pixbuf-2.0/2.10.0/loaders.cache
-      - PKG_CONFIG_PATH: $CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig:$CRAFT_STAGE/usr/lib/pkgconfig:$CRAFT_STAGE/usr/share/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}
+      - PKG_CONFIG_PATH: "$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig:\
+                          $CRAFT_STAGE/usr/lib/pkgconfig:\
+                          $CRAFT_STAGE/usr/share/pkgconfig\
+                          ${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
       - CRAFT_EXT_CORE_LEVEL: core24
 
   ninja:
@@ -58,7 +64,7 @@ parts:
     after: [ ninja ]
     plugin: nil
     source: https://github.com/mesonbuild/meson.git
-    source-tag: '1.5.2'
+    source-tag: '1.6.0'
     source-depth: 1
     override-build: |
       python3 -m pip install --break-system-packages .
@@ -108,7 +114,7 @@ parts:
   glib:
     after: [ libffi, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/glib.git
-    source-tag: '2.82.1'
+    source-tag: '2.82.2'
 # ext:updatesnap
 #   version-format:
 #     ignore-odd-minor: true
@@ -138,7 +144,7 @@ parts:
   pixman:
     after: [ glib, meson-deps ]
     source: https://gitlab.freedesktop.org/pixman/pixman.git
-    source-tag: 'pixman-0.43.4'
+    source-tag: 'pixman-0.44.2'
 # ext:updatesnap
 #   version-format:
 #     format: 'pixman-%M.%m.%R'
@@ -265,7 +271,7 @@ parts:
   harfbuzz:
     after: [ fribidi, meson-deps ]
     source: https://github.com/harfbuzz/harfbuzz.git
-    source-tag: '10.0.1' # developers declared that they won't break ABI
+    source-tag: '10.1.0' # developers declared that they won't break ABI
     source-depth: 1
     plugin: meson
     meson-parameters:
@@ -298,7 +304,7 @@ parts:
   pango:
     after: [ libffi, harfbuzz, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/pango.git
-    source-tag: '1.54.0'
+    source-tag: '1.55.0'
     source-depth: 1
     plugin: meson
     meson-parameters:
@@ -351,36 +357,27 @@ parts:
       - libtiff-dev
 
   librsvg:
-    after: [ gdk-pixbuf, vala, meson-deps ]
+    after: [ gdk-pixbuf, vala ]
     source: https://gitlab.gnome.org/GNOME/librsvg.git
-    source-tag: '2.59.1' # they left the odd->unstable even->stable scheme, and now tags are stable
+    source-tag: '2.58.5' # they left the odd->unstable even->stable scheme, and now all tags are stable
 # ext:updatesnap
 #   version-format:
 #     no-9x-revisions: true
     source-depth: 1
-    plugin: meson
-    meson-parameters:
+    plugin: autotools
+    autotools-configure-parameters:
       - --prefix=/usr
-      - -Doptimization=3
-      - -Ddebug=true
-      - -Dintrospection=enabled
-      - -Dvala=enabled
-      - -Dpixbuf=enabled
-      - -Dpixbuf-loader=enabled
-      - -Ddocs=disabled
-      - -Dtests=false
+      - --enable-introspection=yes
+      - --enable-vala=yes
+      - --enable-pixbuf-loader
     build-environment: *buildenv
     build-packages:
-      - libssl-dev
-      - curl
-    override-pull: |
+      - cargo
+    override-stage: |
+      set -eux
       craftctl default
-      # cargo version in .deb is too old
-      curl https://sh.rustup.rs -sSf > cargo.sh
-      sh ./cargo.sh -y
-      export PATH=$PATH:$HOME/.cargo/bin
-      ~/.cargo/bin/cargo install cargo-c
-      cp ~/.cargo/bin/* /usr/local/bin
+      # snapcraft is adding twice $CRAFT_STAGE
+      cp -a $CRAFT_STAGE/$CRAFT_STAGE/* $CRAFT_STAGE/
 
   epoxy:
     after: [ librsvg, meson-deps ]
@@ -439,7 +436,7 @@ parts:
   libsoup3:
     after: [ libpsl, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/libsoup.git
-    source-tag: '3.6.0'
+    source-tag: '3.6.1'
     source-depth: 1
     plugin: meson
     meson-parameters:
@@ -542,7 +539,7 @@ parts:
   gtk4:
     after: [ wayland-protocols, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/gtk.git
-    source-tag: '4.16.3'
+    source-tag: '4.16.7'
 # ext:updatesnap
 #   version-format:
 #     ignore-odd-minor: true
@@ -608,7 +605,7 @@ parts:
 
   libadwaita:
     source: https://gitlab.gnome.org/GNOME/libadwaita.git
-    source-tag: '1.6.1'
+    source-tag: '1.6.2'
     source-depth: 1
     after: [ meson-deps, gtk4 ]
     plugin: meson
@@ -812,7 +809,7 @@ parts:
   gtksourceview:
     after: [ gtkmm, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/gtksourceview.git
-    source-tag: '5.14.1'
+    source-tag: '5.14.2'
 # ext:updatesnap
 #   version-format:
 #     ignore-odd-minor: true
@@ -954,7 +951,7 @@ parts:
     after: [ cogl, meson-deps ]
     source: https://github.com/linuxwacom/libwacom
     source-type: git
-    source-tag: 'libwacom-2.13.0'
+    source-tag: 'libwacom-2.14.0'
 # ext:updatesnap
 #   version-format:
 #     format: 'libwacom-%M.%m.%R'
@@ -1368,6 +1365,7 @@ parts:
       - libglut-dev
       - gcc
       - gettext
+      - heif-gdk-pixbuf
       - itstool
       - libappstream5
       - libblkid1
@@ -1413,6 +1411,7 @@ parts:
       - libgraphviz-dev
       - libhogweed6t64
       - libgpg-error0
+      - libheif-dev
       - libidn2-0
       - libjpeg-dev
       - libkrb5-3
@@ -1567,8 +1566,6 @@ parts:
       if [ "$CRAFT_ARCH_TRIPLET_BUILD_FOR" = "x86_64-linux-gnu" ]; then
         sed -i 's#includedir=${prefix}/snap/gnome-46-2404-sdk/current#includedir=${prefix}#' $CRAFT_PRIME/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig/igdgmm.pc
       fi
-
-      sed -i 's#/usr/bin/python#python3#' usr/bin/glib-mkenums
 
       LIBTOOLIZE=usr/bin/libtoolize
       sed -i 's#pkgauxdir="$CRAFT_STAGE#pkgauxdir="/snap/gnome-46-2404-sdk/current#' $LIBTOOLIZE
