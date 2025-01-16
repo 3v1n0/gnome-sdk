@@ -155,6 +155,8 @@ parts:
       - -Doptimization=3
       - -Ddebug=true
       - -Dgtk=disabled
+      - -Dtests=disabled
+      - -Ddemos=disabled
     build-environment: *buildenv
 
   cairo:
@@ -204,6 +206,7 @@ parts:
       - -Doptimization=3
       - -Ddebug=true
       - -Dgtk_doc=false
+      - -Ddoctool=enabled
     build-environment: *buildenv
     override-build: |
       set -eux
@@ -262,6 +265,7 @@ parts:
       - -Doptimization=3
       - -Ddebug=true
       - -Ddocs=false
+      - -Dtests=false
     build-environment: *buildenv
 
   harfbuzz:
@@ -277,6 +281,8 @@ parts:
       - -Dgobject=enabled
       - -Doptimization=3
       - -Ddebug=true
+      - -Dtests=disabled
+      - -Ddocs=disabled
       - --default-library=both
     build-environment: *buildenv
     override-build: |
@@ -395,6 +401,7 @@ parts:
       - --prefix=/usr
       - -Doptimization=3
       - -Ddebug=true
+      - -Dtests=false
     build-environment: *buildenv
     build-packages:
       - libgl1-mesa-dev
@@ -412,6 +419,9 @@ parts:
       - -Doptimization=3
       - -Ddebug=true
       - -Dgtk_doc=disabled
+      - -Dintrospection=enabled
+      - -Ddocumentation=disabled
+      - -Dtests=false
     build-environment: *buildenv
 
   libpsl:
@@ -423,7 +433,7 @@ parts:
     meson-parameters:
       - --prefix=/usr
       - -Druntime=libidn2
-      - -Dtests=false # available in master, not in 0.21.2
+      - -Dtests=false
       - -Doptimization=3
       - -Ddebug=true
     build-environment: *buildenv
@@ -447,6 +457,9 @@ parts:
       - -Ddebug=true
       - -Dvapi=enabled
       - -Dtls_check=false #disable build time check, but we need to ensure glib-networking is available at runtime
+      - -Dintrospection=enabled
+      - -Ddocs=disabled
+      - -Dtests=false
     build-environment: *buildenv
     build-packages:
       - libsqlite3-dev
@@ -512,6 +525,7 @@ parts:
       - -Dbuiltin_immodules=yes
       - -Ddemos=false
       - -Dexamples=false
+      - -Dtests=false
     build-environment: *buildenv
     organize:
       usr/lib/gtk-3.0: usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gtk-3.0
@@ -817,6 +831,7 @@ parts:
       - --prefix=/usr
       - -Doptimization=3
       - -Ddebug=true
+      - -Dintrospection=enabled
     build-environment: *buildenv
     build-packages:
       - gettext
@@ -978,6 +993,7 @@ parts:
       - -Doptimization=3
       - -Ddebug=true
       - -Ddocumentation=false
+      - -Dtests=false
     build-environment: *buildenv
     build-packages:
       - check
@@ -1112,6 +1128,7 @@ parts:
       - --prefix=/usr
       - -Doptimization=3
       - -Ddebug=true
+      - -Dtests=false
     build-environment: *buildenv
 
   pygobject:
@@ -1124,6 +1141,7 @@ parts:
       - --prefix=/usr
       - -Doptimization=3
       - -Ddebug=true
+      - -Dtests=false
     build-environment: *buildenv
 
   libhandy:
@@ -1140,6 +1158,8 @@ parts:
       - -Dtests=false
       - -Dexamples=false
       - -Dglade_catalog=disabled
+      - -Dintrospection=enabled
+      - -Dvapi=true
     build-environment: *buildenv
 
   gjs:
@@ -1175,6 +1195,7 @@ parts:
       - -Ddebug=true
       - -Dhash_impl=internal
       - -Dtrust_paths=/etc/ssl/certs/ca-certificates.crt
+      - -Dtest=false
     build-packages:
       - libtasn1-6-dev
     build-environment: *buildenv
@@ -1625,6 +1646,7 @@ parts:
 
       rm -rf root
       rm -rf usr/share/doc
+      rm -rf usr/share/gtk-doc
       rm -rf usr/share/man
       rm -rf usr/libexec/*/installed-tests
       rm -rf usr/libexec/installed-tests
