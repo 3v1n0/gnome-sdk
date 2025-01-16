@@ -956,6 +956,11 @@ parts:
       - --prefix=/usr
       - --with-builtin=pulse
     build-environment: *buildenv
+    override-pull: |
+      craftctl default
+      for p in $CRAFT_PROJECT_DIR/patches/libcanberra/*.patch; do
+        patch -p1 < "$p"
+      done
     override-build: |
       ./autogen.sh
       craftctl default
