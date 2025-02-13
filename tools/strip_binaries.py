@@ -125,6 +125,10 @@ while len(paths) != 0:
         debugpath = os.path.join(debugroot, buildid[:2])
         debugname = os.path.join(debugpath, f"{buildid[2:]}.debug")
 
+        if os.path.exists(debugname):
+            print(f"Debug symbols file {debugname} already exists, skipping.")
+            continue
+
         print(f"Extracting symbols from {fullpath} into {debugname}")
         try:
             os.makedirs(debugpath)
