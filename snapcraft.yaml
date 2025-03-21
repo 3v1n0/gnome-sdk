@@ -64,7 +64,7 @@ parts:
     after: [ ninja ]
     plugin: nil
     source: https://github.com/mesonbuild/meson.git
-    source-tag: '1.6.0'
+    source-tag: '1.7.0'
     source-depth: 1
     override-build: |
       python3 -m pip install --break-system-packages .
@@ -114,7 +114,7 @@ parts:
   glib:
     after: [ libffi, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/glib.git
-    source-tag: '2.82.2'
+    source-tag: '2.84.0'
 # ext:updatesnap
 #   version-format:
 #     ignore-odd-minor: true
@@ -162,7 +162,7 @@ parts:
   cairo:
     after: [ pixman, meson-deps ]
     source: https://gitlab.freedesktop.org/cairo/cairo.git
-    source-tag: '1.18.2'
+    source-tag: '1.18.4'
 # ext:updatesnap
 #   version-format:
 #     ignore-version: '1.17.8'
@@ -220,7 +220,7 @@ parts:
   vala:
     after: [ gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/vala.git
-    source-tag: '0.56.17'
+    source-tag: '0.56.18'
     source-depth: 1
 # ext:updatesnap
 #   version-format:
@@ -271,7 +271,7 @@ parts:
   harfbuzz:
     after: [ fribidi, meson-deps ]
     source: https://github.com/harfbuzz/harfbuzz.git
-    source-tag: '10.1.0' # developers declared that they won't break ABI
+    source-tag: '10.4.0' # developers declared that they won't break ABI
     source-depth: 1
     plugin: meson
     meson-parameters:
@@ -304,7 +304,7 @@ parts:
   pango:
     after: [ libffi, harfbuzz, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/pango.git
-    source-tag: '1.55.0'
+    source-tag: '1.56.3'
     source-depth: 1
     plugin: meson
     meson-parameters:
@@ -359,7 +359,7 @@ parts:
   librsvg:
     after: [ gdk-pixbuf, vala, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/librsvg.git
-    source-tag: '2.59.1' # they left the odd->unstable even->stable scheme, and now all tags are stable
+    source-tag: '2.60.0' # they left the odd->unstable even->stable scheme, and now all tags are stable
 # ext:updatesnap
 #   version-format:
 #     no-9x-revisions: true
@@ -411,7 +411,7 @@ parts:
   json-glib:
     after: [ epoxy, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/json-glib.git
-    source-tag: '1.10.0'
+    source-tag: '1.10.6'
     source-depth: 1
     plugin: meson
     meson-parameters:
@@ -448,7 +448,7 @@ parts:
   libsoup3:
     after: [ libpsl, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/libsoup.git
-    source-tag: '3.6.1'
+    source-tag: '3.6.4'
     source-depth: 1
     plugin: meson
     meson-parameters:
@@ -470,14 +470,14 @@ parts:
   librest:
     after: [ libsoup3, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/librest.git
-    source-tag: '0.9.1'
+    source-tag: '1.0.0'
     source-depth: 1
     plugin: meson
     meson-parameters:
       - --prefix=/usr
       - -Doptimization=3
       - -Ddebug=true
-      - -Dvapi=true
+      - -Dintrospection=true
       - -Dexamples=false
       - -Dgtk_doc=false
       - -Dsoup2=false
@@ -489,7 +489,7 @@ parts:
   wayland-protocols:
     after: [ meson-deps ]
     source: https://gitlab.freedesktop.org/wayland/wayland-protocols.git
-    source-tag: '1.38'
+    source-tag: '1.41'
     source-depth: 1
     build-packages:
       - libwayland-dev
@@ -502,9 +502,9 @@ parts:
     build-environment: *buildenv
 
   gtk3:
-    after: [ wayland-protocols, meson-deps ]
+    after: [ wayland-protocols, harfbuzz, pango, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/gtk.git
-    source-tag: '3.24.43'
+    source-tag: '3.24.49'
 # ext:updatesnap
 #   version-format:
 #     ignore-odd-minor: true
@@ -549,9 +549,9 @@ parts:
       patch -p1 < $CRAFT_PROJECT_DIR/patches/gdkglcontext-wayland-Fallback-to-GLES-2_0-after-GL-failed.patch
 
   gtk4:
-    after: [ wayland-protocols, meson-deps ]
+    after: [ wayland-protocols, harfbuzz, pango, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/gtk.git
-    source-tag: '4.16.7'
+    source-tag: '4.18.2'
 # ext:updatesnap
 #   version-format:
 #     ignore-odd-minor: true
@@ -651,7 +651,7 @@ parts:
     after: [gtk3, gtk4, gtk-locales, meson-deps ]
     plugin: meson
     source: https://github.com/flatpak/libportal.git
-    source-tag: '0.8.1'
+    source-tag: '0.9.1'
     source-depth: 1
     build-environment: *buildenv
     meson-parameters:
@@ -688,7 +688,7 @@ parts:
   glibmm:
     after: [ mm-common ]
     source: https://gitlab.gnome.org/GNOME/glibmm.git
-    source-tag: '2.82.0'
+    source-tag: '2.84.0'
     source-depth: 1
     plugin: autotools
     override-build: |
@@ -738,7 +738,7 @@ parts:
   pangomm:
     after: [ pango, libffi,  cairomm, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/pangomm.git
-    source-tag: '2.54.0'
+    source-tag: '2.56.1'
     source-depth: 1
     plugin: meson
     meson-parameters:
@@ -788,7 +788,7 @@ parts:
   gtkmm:
     after: [ atkmm, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/gtkmm.git
-    source-tag: '4.16.0'
+    source-tag: '4.17.0'
     source-depth: 1
 # ext:updatesnap
 #   version-format:
@@ -821,7 +821,7 @@ parts:
   gtksourceview:
     after: [ gtkmm, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/gtksourceview.git
-    source-tag: '5.14.2'
+    source-tag: '5.16.0'
 # ext:updatesnap
 #   version-format:
 #     ignore-odd-minor: true
@@ -985,7 +985,7 @@ parts:
   libinput:
     after: [ libwacom, meson-deps ]
     source: https://gitlab.freedesktop.org/libinput/libinput.git
-    source-tag: '1.26.2'
+    source-tag: '1.27.1'
     source-depth: 1
     plugin: meson
     meson-parameters:
@@ -1134,7 +1134,7 @@ parts:
   pygobject:
     after: [ pycairo, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/pygobject.git
-    source-tag: '3.50.0'
+    source-tag: '3.52.3'
     source-depth: 1
     plugin: meson
     meson-parameters:
@@ -1203,7 +1203,7 @@ parts:
   libsecret:
     after: [ p11-kit, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/libsecret.git
-    source-tag: '0.21.4'
+    source-tag: '0.21.7'
     source-depth: 1
     plugin: meson
     meson-parameters:
@@ -1219,7 +1219,7 @@ parts:
     after: [ libsecret, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/libgnome-games-support.git
     source-type: git
-    source-tag: '2.0.0'
+    source-tag: '2.0.1'
     source-depth: 1
 # ext:updatesnap
 #   version-format:
@@ -1325,7 +1325,7 @@ parts:
   libayatana-appindicator:
     after: [libayatana-ido, glib, gtk3]
     source: https://github.com/AyatanaIndicators/libayatana-appindicator.git
-    source-tag: '0.5.93'
+    source-tag: '0.5.94'
     source-depth: 1
     plugin: cmake
     build-environment: *buildenv
