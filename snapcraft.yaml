@@ -551,7 +551,7 @@ parts:
   gtk4:
     after: [ wayland-protocols, harfbuzz, pango, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/gtk.git
-    source-tag: '4.18.2'
+    source-tag: '4.18.3'
 # ext:updatesnap
 #   version-format:
 #     ignore-odd-minor: true
@@ -788,12 +788,13 @@ parts:
   gtkmm:
     after: [ atkmm, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/gtkmm.git
-    source-tag: '4.17.0'
+    source-tag: '4.18.0'
     source-depth: 1
 # ext:updatesnap
 #   version-format:
 #     lower-than: 5
 #     no-9x-minors: true
+#     ignore-odd-minor: true
     plugin: meson
     meson-parameters:
       - --prefix=/usr
