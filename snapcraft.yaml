@@ -551,7 +551,7 @@ parts:
   gtk4:
     after: [ wayland-protocols, harfbuzz, pango, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/gtk.git
-    source-tag: '4.18.3'
+    source-tag: '4.18.4'
 # ext:updatesnap
 #   version-format:
 #     ignore-odd-minor: true
