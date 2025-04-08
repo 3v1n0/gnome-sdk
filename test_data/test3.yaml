@@ -234,7 +234,7 @@ parts:
       - libgraphviz-dev
 
   at-spi2-core:
-    after: [ glib, gobject-introspection, meson-deps ]
+    after: [ glib, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/at-spi2-core.git
     source-tag: 'AT_SPI2_CORE_2_52_0'
 # ext:updatesnap

@@ -8,6 +8,9 @@ config_file = "snapcraft.yaml"
 if not os.path.exists(config_file):
     config_file = os.path.join("snap", "snapcraft.yaml")
 
+if len(sys.argv) > 1:
+    config_file = sys.argv[1]
+
 data = yaml.safe_load(open(config_file, "r"))
 
 ########################################################
@@ -50,30 +53,28 @@ for dependency in deb_dependencies:
         print(f"DEBS part must be after {dependency}")
         failed = True
 
-def check_dependency(*, part_name, part, string_to_find, dependency):
+def check_dependency(*, part_name, part, strings_to_find, dependency):
     if "meson-parameters" not in part:
         return False
     for meson_parameter in part["meson-parameters"]:
-        if meson_parameter.find(string_to_find) == -1:
-            continue
-        if dependency not in part["after"]:
-            print(f"Part {part_name} requires {dependency} dependency due to meson option {meson_parameter}")
-            return True
+        for string_to_find in strings_to_find:
+            if (meson_parameter.find(string_to_find) != -1) and (dependency not in part["after"]):
+                print(f"Part {part_name} requires {dependency} dependency due to meson option {meson_parameter}")
+                return True
     return False
-
 
 ###################################################
 # Ensure that any part that builds introspection, #
 # depends on gobject-introspection.               #
 ###################################################
 
-goi_exceptions = ["glib"]
+goi_exceptions = ["glib"] # parts that must NOT have gobject-introspection as dependency, even if detected automatically
 for part_name in data["parts"]:
     if part_name in goi_exceptions:
         continue
     if check_dependency(part_name=part_name,
                         part = data["parts"][part_name],
-                        string_to_find="introspection",
+                        strings_to_find=["introspection"],
                         dependency="gobject-introspection"):
         failed = True
 
@@ -82,13 +83,13 @@ for part_name in data["parts"]:
 # depends on vala.                            #
 ###############################################
 
-vapi_exceptions = []
+vapi_exceptions = ['vala'] # parts that must NOT have vala as dependency, even if detected automatically
 for part_name in data["parts"]:
     if part_name in vapi_exceptions:
         continue
     if check_dependency(part_name=part_name,
                         part = data["parts"][part_name],
-                        string_to_find="vapi",
+                        strings_to_find=['vala', 'vapi'],
                         dependency="vala"):
         failed = True
 

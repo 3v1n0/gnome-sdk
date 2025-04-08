@@ -446,7 +446,7 @@ parts:
       sed -i 's#^\#!/usr/bin/env python$#\#!/usr/bin/env python3#g' src/psl-make-dafsa
 
   libsoup3:
-    after: [ libpsl, meson-deps, vala, gobject-introspection ]
+    after: [ libpsl, meson-deps, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/libsoup.git
     source-tag: '3.6.4'
     source-depth: 1
