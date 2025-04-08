@@ -34,9 +34,9 @@ jobs:
           tools/check_dependencies.py test_data/test3.yaml
       - name: Invert success and failure for tests
         run: |
-          if [[ ${{ steps.checker-test1.outcome }} != "failure" ]]; then exit 1; fi
-          if [[ ${{ steps.checker-test2.outcome }} != "failure" ]]; then exit 1; fi
-          if [[ ${{ steps.checker-test3.outcome }} != "failure" ]]; then exit 1; fi
+          if [ "${{ steps.checker-test1.outcome }}" != "failure" ]; then exit 1; fi
+          if [ "${{ steps.checker-test2.outcome }}" != "failure" ]; then exit 1; fi
+          if [ "${{ steps.checker-test3.outcome }}" != "failure" ]; then exit 1; fi
       - name: Verify dependencies
         run: |
           tools/check_dependencies.py
