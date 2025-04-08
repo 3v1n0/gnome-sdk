@@ -39,6 +39,7 @@ parts:
                           $CRAFT_STAGE/usr/share/pkgconfig\
                           ${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
       - CRAFT_EXT_CORE_LEVEL: core24
+      - PATH: $CRAFT_STAGE/usr/bin:$PATH
 
   ninja:
     plugin: nil
@@ -194,7 +195,6 @@ parts:
   gobject-introspection:
     after: [ cairo, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/gobject-introspection.git
-    # using 1.82.0 breaks libportal
     source-tag: '1.80.1'
 # ext:updatesnap
 #   version-format:
@@ -269,7 +269,7 @@ parts:
     build-environment: *buildenv
 
   harfbuzz:
-    after: [ fribidi, meson-deps ]
+    after: [ fribidi, meson-deps, gobject-introspection ]
     source: https://github.com/harfbuzz/harfbuzz.git
     source-tag: '10.4.0' # developers declared that they won't break ABI
     source-depth: 1
@@ -302,7 +302,7 @@ parts:
       - libgraphite2-dev
 
   pango:
-    after: [ libffi, harfbuzz, meson-deps ]
+    after: [ libffi, harfbuzz, meson-deps, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/pango.git
     source-tag: '1.56.3'
     source-depth: 1
@@ -324,7 +324,7 @@ parts:
       - cmake
 
   gdk-pixbuf:
-    after: [ pango, meson-deps ]
+    after: [ pango, meson-deps, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/gdk-pixbuf.git
     source-tag: '2.42.12'
     source-depth: 1
@@ -357,7 +357,7 @@ parts:
       - libtiff-dev
 
   librsvg:
-    after: [ gdk-pixbuf, vala, meson-deps ]
+    after: [ gdk-pixbuf, vala, meson-deps, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/librsvg.git
     source-tag: '2.60.0' # they left the odd->unstable even->stable scheme, and now all tags are stable
 # ext:updatesnap
@@ -409,7 +409,7 @@ parts:
       - xutils-dev
 
   json-glib:
-    after: [ epoxy, meson-deps ]
+    after: [ epoxy, meson-deps, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/json-glib.git
     source-tag: '1.10.6'
     source-depth: 1
@@ -446,7 +446,7 @@ parts:
       sed -i 's#^\#!/usr/bin/env python$#\#!/usr/bin/env python3#g' src/psl-make-dafsa
 
   libsoup3:
-    after: [ libpsl, meson-deps ]
+    after: [ libpsl, meson-deps, vala, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/libsoup.git
     source-tag: '3.6.4'
     source-depth: 1
@@ -468,7 +468,7 @@ parts:
       - libnghttp2-dev
 
   librest:
-    after: [ libsoup3, meson-deps ]
+    after: [ libsoup3, meson-deps, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/librest.git
     source-tag: '1.0.0'
     source-depth: 1
@@ -502,7 +502,7 @@ parts:
     build-environment: *buildenv
 
   gtk3:
-    after: [ wayland-protocols, harfbuzz, pango, meson-deps ]
+    after: [ wayland-protocols, harfbuzz, pango, meson-deps, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/gtk.git
     source-tag: '3.24.49'
 # ext:updatesnap
@@ -549,7 +549,7 @@ parts:
       patch -p1 < $CRAFT_PROJECT_DIR/patches/gdkglcontext-wayland-Fallback-to-GLES-2_0-after-GL-failed.patch
 
   gtk4:
-    after: [ wayland-protocols, harfbuzz, pango, meson-deps ]
+    after: [ wayland-protocols, harfbuzz, pango, meson-deps, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/gtk.git
     source-tag: '4.18.3'
 # ext:updatesnap
@@ -619,7 +619,7 @@ parts:
     source: https://gitlab.gnome.org/GNOME/libadwaita.git
     source-tag: '1.6.2'
     source-depth: 1
-    after: [ meson-deps, gtk4 ]
+    after: [ meson-deps, gtk4, vala, gobject-introspection ]
     plugin: meson
     meson-parameters:
       - --prefix=/usr
@@ -648,7 +648,7 @@ parts:
       patch -p1 < $CRAFT_PROJECT_DIR/patches/style-Add-wartybrown-accent-support.patch
 
   libportal:
-    after: [gtk3, gtk4, gtk-locales, meson-deps ]
+    after: [gtk3, gtk4, gtk-locales, vala, meson-deps, gobject-introspection ]
     plugin: meson
     source: https://github.com/flatpak/libportal.git
     source-tag: '0.9.1'
@@ -820,7 +820,7 @@ parts:
       craftctl default
 
   gtksourceview:
-    after: [ gtkmm, meson-deps ]
+    after: [ gtkmm, meson-deps, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/gtksourceview.git
     source-tag: '5.16.0'
 # ext:updatesnap
@@ -941,7 +941,7 @@ parts:
       - yelp-tools
 
   cogl:
-    after: [ gnome-desktop ]
+    after: [ gnome-desktop, gobject-introspection ]
     source: https://gitlab.gnome.org/Archive/cogl.git
     source-tag: '1.22.8'
     source-depth: 1
@@ -1095,7 +1095,7 @@ parts:
     build-environment: *buildenv
 
   libpeas:
-    after: [ clutter-gtk, meson-deps ]
+    after: [ clutter-gtk, meson-deps, vala, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/libpeas.git
     source-tag: 'libpeas-1.36.0' # developers say that they don't want to break ABI, so it should be safe to always update
 # ext:updatesnap
@@ -1146,7 +1146,7 @@ parts:
     build-environment: *buildenv
 
   libhandy:
-    after: [ pygobject, meson-deps ]
+    after: [ pygobject, meson-deps, vala, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/libhandy.git
     source-tag: '1.8.3'
     source-depth: 1
@@ -1324,7 +1324,7 @@ parts:
       done
 
   libayatana-appindicator:
-    after: [libayatana-ido, glib, gtk3]
+    after: [libayatana-ido, glib, gtk3, vala]
     source: https://github.com/AyatanaIndicators/libayatana-appindicator.git
     source-tag: '0.5.94'
     source-depth: 1
