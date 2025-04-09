@@ -17,6 +17,26 @@ jobs:
         run: |
           apt-get update
           DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3 python3-yaml
+      - name: Verity dependency checker test1
+        id: checker-test1
+        continue-on-error: true
+        run: |
+          tools/check_dependencies.py test_data/test1.yaml
+      - name: Verity dependency checker test2
+        id: checker-test2
+        continue-on-error: true
+        run: |
+          tools/check_dependencies.py test_data/test2.yaml
+      - name: Verity dependency checker test3
+        id: checker-test3
+        continue-on-error: true
+        run: |
+          tools/check_dependencies.py test_data/test3.yaml
+      - name: Invert success and failure for tests
+        run: |
+          if [ "${{ steps.checker-test1.outcome }}" != "failure" ]; then exit 1; fi
+          if [ "${{ steps.checker-test2.outcome }}" != "failure" ]; then exit 1; fi
+          if [ "${{ steps.checker-test3.outcome }}" != "failure" ]; then exit 1; fi
       - name: Verify dependencies
         run: |
           tools/check_dependencies.py

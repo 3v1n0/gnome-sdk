@@ -357,7 +357,7 @@ parts:
       - libtiff-dev
 
   librsvg:
-    after: [ gdk-pixbuf, vala, meson-deps, gobject-introspection ]
+    after: [ gdk-pixbuf, meson-deps, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/librsvg.git
     source-tag: '2.60.0' # they left the odd->unstable even->stable scheme, and now all tags are stable
 # ext:updatesnap
@@ -551,7 +551,7 @@ parts:
   gtk4:
     after: [ wayland-protocols, harfbuzz, pango, meson-deps, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/gtk.git
-    source-tag: '4.18.4'
+    source-tag: '4.18.3'
 # ext:updatesnap
 #   version-format:
 #     ignore-odd-minor: true

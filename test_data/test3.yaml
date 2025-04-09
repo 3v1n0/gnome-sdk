@@ -234,7 +234,7 @@ parts:
       - libgraphviz-dev
 
   at-spi2-core:
-    after: [ glib, gobject-introspection, meson-deps ]
+    after: [ glib, meson-deps ]
     source: https://gitlab.gnome.org/GNOME/at-spi2-core.git
     source-tag: 'AT_SPI2_CORE_2_52_0'
 # ext:updatesnap
@@ -551,7 +551,7 @@ parts:
   gtk4:
     after: [ wayland-protocols, harfbuzz, pango, meson-deps, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/gtk.git
-    source-tag: '4.18.4'
+    source-tag: '4.18.3'
 # ext:updatesnap
 #   version-format:
 #     ignore-odd-minor: true
