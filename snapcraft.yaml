@@ -1575,7 +1575,10 @@ parts:
       rm -f $CRAFT_PART_INSTALL/usr/lib/*/libatspi.so*
 
   conditioning:
-    after: [ debs ]
+    after:
+      - debs
+      - gobject-introspection
+      - libtool
     plugin: nil
     build-environment: *buildenv
     build-packages:
