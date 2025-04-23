@@ -89,6 +89,8 @@ parts:
     override-stage: |
       set -eux
       craftctl default
+      rm $CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lib[mc].a || :
+      rm $CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lib[mc].so || :
       LIBTOOLIZE=usr/bin/libtoolize
       sed -i 's#pkgauxdir="#pkgauxdir="$CRAFT_STAGE#' $LIBTOOLIZE
       sed -i 's#pkgltdldir="#pkgltdldir="$CRAFT_STAGE#' $LIBTOOLIZE
