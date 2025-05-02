@@ -472,7 +472,7 @@ parts:
   librest:
     after: [ libsoup3, meson-deps, gobject-introspection ]
     source: https://gitlab.gnome.org/GNOME/librest.git
-    source-tag: '1.0.0'
+    source-tag: '0.9.1'
     source-depth: 1
     plugin: meson
     meson-parameters:
