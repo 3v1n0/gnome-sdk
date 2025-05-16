@@ -1592,15 +1592,18 @@ parts:
     override-build: |
       set -eux
       craftctl default
+
+      # Drop all the duplicates *.so.* library files that have been pulled from
+      # deb files and that we're already shipping as part of source-compiled parts
       cd $CRAFT_STAGE/usr
-      find . -type f,l -exec rm -f $CRAFT_PART_INSTALL/usr/{} \;
-      find . -type f,l -name "*.so*" -exec bash -c "rm -f $CRAFT_PART_INSTALL/usr/{}*" \;
+      find . -type f,l -exec rm -fv $CRAFT_PART_INSTALL/usr/{} \;
+      find . -type f,l -name "*.so.*" -exec sh -c "rm -fv $CRAFT_PART_INSTALL/usr/{}*" \;
       cd $CRAFT_STAGE/usr/lib
-      find . -type f,l -exec rm -f $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/{} \;
-      find . -type f,l -name "*.so*" -exec bash -c "rm -f $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/{}*" \;
+      find . -type f,l -exec rm -fv $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/{} \;
+      find . -type f,l -name "*.so.*" -exec sh -c "rm -fv $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/{}*" \;
       cd $CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
-      find . -type f,l -exec rm -f $CRAFT_PART_INSTALL/usr/lib/{} \;
-      find . -type f,l -name "*.so*" -exec bash -c "rm -f $CRAFT_PART_INSTALL/usr/lib/{}*" \;
+      find . -type f,l -exec rm -fv $CRAFT_PART_INSTALL/usr/lib/{} \;
+      find . -type f,l -name "*.so.*" -exec sh -c "rm -fv $CRAFT_PART_INSTALL/usr/lib/{}*" \;
       # FIXME, need to figure out why libayatana-appindicator install those
       rm -f $CRAFT_PART_INSTALL/usr/lib/*/libatk-1.0.so*
       rm -f $CRAFT_PART_INSTALL/usr/lib/*/libatk-bridge-2.0.so*
