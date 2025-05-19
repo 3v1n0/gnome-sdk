@@ -1691,21 +1691,13 @@ parts:
       invalid_links=()
       core_root_prefix=/snap/$CRAFT_EXT_CORE_LEVEL/current
       for i in $(find "$CRAFT_PRIME"/{usr/,}lib -xtype l -name '*.so'); do
-        # Try fix dangling symlink by overwriting it with core library if any.
-        rel_lib_path=$(realpath --relative-to="$CRAFT_PRIME" "$i")
-        core_lib=$core_root_prefix/$(dirname "$rel_lib_path")/$(readlink "$i")
-
-        if realpath --canonicalize-existing "$core_lib"; then
-          ln -svf "${core_lib#"$core_root_prefix"}" "$i"
-          continue
-        fi
-
         echo "$i: dangling symlink!"
         invalid_links+=($i)
       done
       if [ ${#invalid_links[@]} -gt 0 ]; then
         echo "Invalid symlinks found:"
         echo "${invalid_links[@]}"
+        echo "Ensure full package set is staged!"
         exit 1;
       fi
 
