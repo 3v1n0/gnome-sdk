@@ -1443,6 +1443,8 @@ parts:
       - libbrotli-dev
       - libbz2-1.0
       - libbz2-dev
+      - libc6
+      - libc6-dev
       - libcairo2-dev
       - libcanberra-gtk3-dev
       - libcanberra-pulse
@@ -1506,6 +1508,8 @@ parts:
       - libnsl-dev
       - libnss3-dev
       - libopenjp2-7-dev
+      - libpciaccess0
+      - libpciaccess-dev
       - libpcre2-8-0
       - libpcre2-dev
       - libpcre3
