@@ -1606,10 +1606,6 @@ parts:
       cd $CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
       find . -type f,l -exec rm -fv $CRAFT_PART_INSTALL/usr/lib/{} \;
       find . -type f,l -name "*.so.*" -exec sh -c "rm -fv $CRAFT_PART_INSTALL/usr/lib/{}*" \;
-      # FIXME, need to figure out why libayatana-appindicator install those
-      rm -f $CRAFT_PART_INSTALL/usr/lib/*/libatk-1.0.so*
-      rm -f $CRAFT_PART_INSTALL/usr/lib/*/libatk-bridge-2.0.so*
-      rm -f $CRAFT_PART_INSTALL/usr/lib/*/libatspi.so*
     stage:
       - -usr/bin/fc-cache
 
