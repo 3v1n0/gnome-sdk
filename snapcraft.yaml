@@ -296,9 +296,6 @@ parts:
         sed -i 's#libdir=/usr#libdir=${prefix}#' $PC
         sed -i 's#includedir=/usr#includedir=${prefix}#' $PC
       done
-      for f in `find $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR |grep \\.la`; do
-        sed -i "s#^libdir='/usr/lib#libdir='$CRAFT_STAGE/usr/lib#g" $f
-      done
     build-packages:
       - ragel
       - libgraphite2-dev
@@ -712,9 +709,6 @@ parts:
       ./autogen.sh --prefix=/usr
       make -j8
       make install DESTDIR=$CRAFT_PART_INSTALL
-      for f in `find $CRAFT_PART_INSTALL/usr/lib |grep \\.la`; do
-        sed -i "s#^libdir='/usr/lib#libdir='$CRAFT_STAGE/usr/lib#g" $f
-      done
     build-packages:
       - libsigc++-3.0-dev
       - libxml-parser-perl
@@ -1673,8 +1667,7 @@ parts:
       rm -rf usr/share/gtk-doc
       rm -rf usr/share/man
       find usr -type d -name installed-tests -exec rm -rfv '{}' \; || true
-      rm -f usr/lib/*.la
-      rm -f usr/lib/*/*.la
+      find usr -type f,l -name '*.la' -print -delete;
 
       # Cleanup from libunity addition
       rm -f usr/bin/dbus-binding-tool
