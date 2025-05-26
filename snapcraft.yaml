@@ -1672,8 +1672,7 @@ parts:
       rm -rf usr/share/doc
       rm -rf usr/share/gtk-doc
       rm -rf usr/share/man
-      rm -rf usr/libexec/*/installed-tests
-      rm -rf usr/libexec/installed-tests
+      find usr -type d -name installed-tests -exec rm -rfv '{}' \; || true
       rm -f usr/lib/*.la
       rm -f usr/lib/*/*.la
 
