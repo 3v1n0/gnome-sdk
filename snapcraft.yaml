@@ -1456,10 +1456,12 @@ parts:
       - libdrm2
       - libdrm-dev
       - libegl1-mesa-dev
+      - libelf1t64
       - libevdev2
       - libevdev-dev
       - libexpat1
       - libexpat1-dev
+      - libffi8
       - libfontconfig1-dev
       - libfreetype6
       - libfreetype-dev
@@ -1481,6 +1483,7 @@ parts:
       - libgraphene-1.0-dev
       - libgraphviz-dev
       - libgspell-1-dev
+      - libgssapi-krb5-2
       - libgstreamer-plugins-bad1.0-dev
       - libgstreamer-plugins-base1.0-dev
       - libgstreamer-plugins-good1.0-dev
@@ -1491,6 +1494,8 @@ parts:
       - libidn2-0
       - libidn2-dev
       - libjpeg-dev
+      - libk5crypto3
+      - libkrb5support0
       - libkrb5-3
       - libkrb5-dev
       - liblcms2-dev
