@@ -1448,7 +1448,9 @@ parts:
       - libcairo2-dev
       - libcanberra-gtk3-dev
       - libcanberra-pulse
+      - libcrypt1
       - libcrypt-dev
+      - libcom-err2
       - libcurl4-openssl-dev
       - libdbus-1-3
       - libdbus-1-dev
@@ -1546,6 +1548,7 @@ parts:
       - libtasn1-6-dev
       - libtdb-dev
       - libthai-dev
+      - libtirpc3t64
       - libudev1
       - libudev-dev
       - libunity-dev
