@@ -1701,7 +1701,7 @@ parts:
       if [ ${#invalid_links[@]} -gt 0 ]; then
         echo "Invalid symlinks found:"
         echo "${invalid_links[@]}"
-        echo "Ensure full package set is staged!"
+        echo "Ensure full package set (runtime and dev files) is staged!"
         exit 1;
       fi
 
