@@ -23,6 +23,10 @@ confinement: strict
 grade: stable
 base: core22 # if the base is changed, the BUILDENV part must be updated
 
+package-repositories:
+  - type: apt
+    ppa: desktop-snappers/core22-mesa-backports
+
 parts:
   buildenv:
     plugin: nil
@@ -1547,7 +1551,9 @@ parts:
       - libcurl4-openssl-dev
       - libdbus-1-3
       - libdbus-1-dev
+      - libxcb-dri2-0
       - libxcb-dri3-0
+      - libglapi-mesa
       - libdrm2
       - libdrm-dev
       - libdrm-common
