@@ -951,7 +951,7 @@ parts:
 
   libdazzle:
     after: [ gtksourceview, meson-deps ]
-    source: https://gitlab.gnome.org/GNOME/libdazzle.git
+    source: https://gitlab.gnome.org/Archive/libdazzle.git
     source-tag: '3.44.0'
     source-depth: 1
     plugin: meson
