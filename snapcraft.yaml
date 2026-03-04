@@ -1112,7 +1112,7 @@ parts:
 
   clutter:
     after: [ cogl, libinput, meson-deps ]
-    source: https://gitlab.gnome.org/GNOME/clutter.git
+    source: https://gitlab.gnome.org/Archive/clutter.git
     source-tag: '1.26.4'
 # ext:updatesnap
 #   version-format:
