@@ -262,7 +262,7 @@ parts:
 
   atk:
     after: [ gee, meson-deps ]
-    source: https://gitlab.gnome.org/GNOME/atk.git
+    source: https://gitlab.gnome.org/Archive/atk.git
     source-tag: '2.38.0'
     source-depth: 1
     plugin: meson
@@ -304,7 +304,7 @@ parts:
 
   at-spi2-atk:
     after: [ at-spi2-core, meson-deps ]
-    source: https://gitlab.gnome.org/GNOME/at-spi2-atk.git
+    source: https://gitlab.gnome.org/Archive/at-spi2-atk.git
     source-tag: 'AT_SPI2_ATK_2_38_0'
 # ext:updatesnap
 #   version-format:
