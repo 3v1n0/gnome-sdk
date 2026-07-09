@@ -701,7 +701,7 @@ parts:
     override-pull: |
       set -eux
       craftctl default
-      wget -P doctags/ http://gcc.gnu.org/onlinedocs/libstdc++/latest-doxygen/libstdc++.tag
+      wget -P doctags/ https://gcc.gnu.org/onlinedocs/libstdc++/latest-doxygen/libstdc++.tag
     build-environment: *buildenv
     build-packages:
       - wget
