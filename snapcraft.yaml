@@ -349,6 +349,9 @@ parts:
     override-pull: |
       craftctl default
       meson subprojects download
+
+      # vendor rust crates in the "pull" phase to avoid downloading from the network later.
+      # this would happen automatically if the part used "plugin: rust", but it is a meson project.
       mkdir -p $CRAFT_PART_BUILD/.cargo
       cargo vendor $CRAFT_PART_SRC/vendor > $CRAFT_PART_BUILD/.cargo/config.toml
     override-stage: |
